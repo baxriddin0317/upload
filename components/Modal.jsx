@@ -3,7 +3,7 @@ import FileUpload from './FileUpload';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '@/app/firebase/config';
 
-const Modal = ({setUploading, uploading, setAudioFiles, userId}) => {
+const Modal = ({setUploading, uploading, setAudioFiles, userId, setModal}) => {
   const [progress, setProgress] = useState(0);
   const [audioFile, setAudioFile] = useState(null);
 
@@ -59,7 +59,7 @@ const Modal = ({setUploading, uploading, setAudioFiles, userId}) => {
     }
   }, [uploading])
 
-  return <FileUpload handleChange={handleChange} handleUpload={handleUpload} selectedFile={audioFile} uploadProgress={progress} />
+  return <FileUpload handleChange={handleChange} handleUpload={handleUpload} selectedFile={audioFile} uploadProgress={progress} setModal={setModal} />
 }
 
 export default Modal

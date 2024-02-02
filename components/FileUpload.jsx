@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) => {
+const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress, setModal}) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter = (e) => {
@@ -37,18 +37,27 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) 
   };
   
   return (
-    <div className={`bg-white shadow-md rounded-md p-6 w-full mb-10 ${
-      isDragging ? 'border-2 border-dashed border-blue-600' : ''
-    }`}
-    onDragEnter={handleDragEnter}
-    onDragLeave={handleDragLeave}
-    onDragOver={handleDragOver}
-    onDrop={handleDrop}>
-      <h2 className="text-xl font-semibold mb-4">Upload Files</h2>
-      <div className="space-y-4">
-        <label htmlFor="fileInput" className="border-dashed p-2 border-indigo-600 cursor-pointer hover:bg-indigo-100 border inline-block rounded-lg text-sm font-medium text-gray-700">
-          Choose a file
-        </label>
+    <div 
+      className={`bg-white shadow-md rounded-md p-6 w-full mb-10 ${
+        isDragging ? 'border-2 border-dashed border-blue-600' : ''
+        }`}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
+      <div className='flex items-center justify-between mb-2'>
+        <h2 className="text-xl font-semibold ">Upload Files</h2>
+        <button onClick={() => setModal(false)}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <p className='mb-4'>
+      Upload audio (MP3) or document (DOC) files easily. Ensure selected files match the supported formats for a smooth experience.
+      </p>
+      <div className="space-y-4">  
         <div className="flex items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
           <div className="space-y-1 text-center">
             <svg
@@ -67,9 +76,15 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) 
               />
             </svg>
             <div className={`text-sm text-gray-600 ${selectedFile && 'w-4/5 mx-auto overflow-hidden'}`}>
-              <p className="font-medium text-indigo-600 hover:text-indigo-500">
-                {selectedFile ? selectedFile.name : 'Select a file'}
-              </p>
+              {selectedFile ? (
+                <p className="font-medium text-indigo-600 hover:text-indigo-500">
+                  {selectedFile.name}
+                </p> 
+              ): (
+                <label htmlFor="fileInput" className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer">
+                  Select a file
+                </label>
+              )}
               <p className="text-xs text-gray-500">or drag and drop</p>
             </div>
           </div>
@@ -83,18 +98,22 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) 
         />
         <div className='flex items-center gap-5 justify-between'>
           <div className="w-4/5 flex items-center justify-between">
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div
-                className="bg-indigo-500 rounded-md h-2.5"
-                style={{ width: `${uploadProgress}%` }}
-              />
-            </div>
-            <span className="text-xs text-gray-500 ml-2">{`${uploadProgress.toFixed(2)}%`}</span>
+            {uploadProgress > 0 && (
+              <>
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div
+                    className="bg-indigo-500 rounded-md h-2.5"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+                <span className="text-xs text-gray-500 ml-2">{`${uploadProgress.toFixed(2)}%`}</span>
+              </>
+            )}
           </div>
           <button
             onClick={handleUpload}
             disabled={!selectedFile}
-            className={`${!selectedFile ? 'bg-gray-400' : 'bg-indigo-500 hover:bg-indigo-600'}  text-white py-2 px-4 rounded-md `}
+            className={`${!selectedFile ? 'bg-gray-400' : 'bg-indigo-500 hover:bg-indigo-600'}  text-white py-2 px-4 rounded-md`}
           >
             Upload
           </button>
