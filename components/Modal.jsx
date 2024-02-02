@@ -56,6 +56,7 @@ const Modal = ({setUploading, uploading, setAudioFiles, userId, setModal}) => {
     if(!uploading){
       setAudioFile(null)
       setProgress(0)
+      setModal(false)
     }
   }, [uploading])
 
