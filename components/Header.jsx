@@ -8,7 +8,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Header() {
+export default function Header({setModal}) {
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -37,7 +37,9 @@ export default function Header() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                
+                <button onClick={() => setModal(true)} className='bg-blue-500 text-white px-4 py-2 text-sm hover:scale-105 rounded-md capitalize mr-5'>
+                  ask doctor
+                </button>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">

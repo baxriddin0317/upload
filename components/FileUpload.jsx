@@ -37,7 +37,7 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) 
   };
   
   return (
-    <div className={`lg:w-1/2 mx-auto bg-white shadow-md rounded-md p-6 w-full mb-10 ${
+    <div className={`bg-white shadow-md rounded-md p-6 w-full mb-10 ${
       isDragging ? 'border-2 border-dashed border-blue-600' : ''
     }`}
     onDragEnter={handleDragEnter}
