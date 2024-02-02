@@ -1,24 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Upload App
+A simple file upload app built with Next.js, Firebase, and Tailwind CSS.
 
-## Getting Started
+## Overview
+This app allows users to upload files to Firebase Storage using Next.js as the front-end framework, Firebase for backend storage, and Tailwind CSS for styling.
 
-First, run the development server:
+Table of Contents
+- Installation
+- Configuration
+- Run
+- Firebase Connection
+- Usage
+- License
+
+## Installation
+Make sure you have Node.js installed on your machine.
+
+Clone the repository:
+```bash
+git clone https://github.com/baxriddin0317/upload.git
+```
+Change into the project directory:
+```bash
+cd upload
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+
+## Configuration
+
+Create a .env.local file in the root of the project and add the following configuration:
+
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+NEXT_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
+```
+
+Replace your-firebase-api-key, your-firebase-auth-domain, and other placeholders with your actual Firebase project credentials.
+
+## Run
+
+To start the development server, run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000 to view the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Firebase Connection
+
+Ensure your Firebase Storage rules allow read and write access. Here is a sample rule for testing:
+
+```bash
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write;
+    }
+  }
+}
+```
+
+Adjust the rules based on your security requirements for production.
+
+## Usage
+
+- Visit the app at http://localhost:3000.
+- Click on the "Upload" button to select a file.
+- The file will be uploaded to Firebase Storage, and a link will be displayed.
+
+Feel free to customize and enhance the app based on your specific requirements!
 
 ## Learn More
 

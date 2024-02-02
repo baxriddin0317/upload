@@ -12,7 +12,6 @@ const AudioUploader = ({ userId }) => {
   const [progress, setProgress] = useState(0);
   const [audioFiles, setAudioFiles] = useState([]);
   const [docFiles, setDocFiles] = useState([]);
-  const [error, setError] = useState(null);
   
   const handleChange = (e) => {
     const file = e.target.files[0];
