@@ -1,19 +1,19 @@
 'use client'
 import ReactPlayer from 'react-player';
 import React, { useEffect, useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL, listAll, getMetadata } from 'firebase/storage';
+import { ref, getDownloadURL, listAll, getMetadata } from 'firebase/storage';
 import { storage } from '@/app/firebase/config'; // Update this import
-import FileUpload from './FileUpload';
 import DocCard from './DocCard';
+import useModalStore from '@/modal.storage';
 
 const AudioUploader = ({ userId, uploading, audioFiles, setAudioFiles }) => {
   const [docFiles, setDocFiles] = useState([]);
+  const {setModal} = useModalStore()
 
-  // get all upload files
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        // Fetch audio files
+        
         const audioRef = ref(storage, `audio/${userId}`);
         const audioFilesList = await listAll(audioRef);
         const audioFilesWithMetadata = await Promise.all(
@@ -25,7 +25,7 @@ const AudioUploader = ({ userId, uploading, audioFiles, setAudioFiles }) => {
         );
         setAudioFiles(audioFilesWithMetadata);
 
-        // Fetch doc files (modify the path accordingly)
+        
         const docRef = ref(storage, `docs/${userId}`);
         console.log(docRef);
         const docFilesList = await listAll(docRef);
@@ -47,28 +47,37 @@ const AudioUploader = ({ userId, uploading, audioFiles, setAudioFiles }) => {
   return (
     <div className='max-w-5xl w-full'>
 
-      <h1 className='font-bold text-3xl mb-4'>Your Files</h1>
+    <div className='flex items-center justify-between mb-4'>
+      <h1 className='font-bold text-3xl'>Your Files</h1>
+      <button onClick={() => setModal()} className='bg-blue-500 text-white px-4 py-2 text-sm hover:scale-105 rounded-md capitalize mr-5'>
+        ask doctor
+      </button>
+    </div>
 
-      <div className='grid grid-cols-2 gap-4'>
-        <div>
-          <h2 className='text-xl font-semibold mb-2'>Audio Files</h2>
-          {audioFiles && audioFiles.map(({ file, metadata, downloadURL }, idx) => (
-            <div key={idx}>
-              {/* Render audio card component */}
-              <AudioCard file={file} metadata={metadata} downloadURL={downloadURL} />
-            </div>
-          ))}
-        </div>
+    <div className='grid md:grid-cols-2 gap-4'>
+      <div>
+        <h2 className='text-xl font-semibold mb-2'>Audio Files</h2>
+        {audioFiles.length > 0 ? audioFiles.map(({ file, metadata, downloadURL }, idx) => (
+          <div key={idx}>
+            {/* Render audio card component */}
+            <AudioCard file={file} metadata={metadata} downloadURL={downloadURL} />
+          </div>
+        )) : (
+          <p>You haven't uploaded files yet</p>
+        )}
+      </div>
 
-        <div>
-          <h2 className='text-xl font-semibold mb-2'>Doc Files</h2>
-          {docFiles.map(({ file, metadata },idx) => (
-            <div key={idx}>
-              {/* Render doc card component */}
-              <DocCard file={file} metadata={metadata} />
-            </div>
-          ))}
-        </div>
+      <div>
+        <h2 className='text-xl font-semibold mb-2'>Doc Files</h2>
+        {docFiles.length > 0 ? docFiles.map(({ file, metadata },idx) => (
+          <div key={idx}>
+            {/* Render doc card component */}
+            <DocCard file={file} metadata={metadata} />
+          </div>
+        )) : (
+          <p>You haven't uploaded files yet</p>
+        )}
+      </div>
     </div>
     </div>
   );

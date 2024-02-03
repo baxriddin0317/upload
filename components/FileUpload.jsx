@@ -1,7 +1,10 @@
+import useModalStore from '@/modal.storage';
 import React, { useState } from 'react'
 
-const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress, setModal}) => {
+const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress}) => {
   const [isDragging, setIsDragging] = useState(false);
+  const { closeModal } = useModalStore();
+
 
   const handleDragEnter = (e) => {
     e.preventDefault();
@@ -48,9 +51,9 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress, s
     >
       <div className='flex items-center justify-between mb-2'>
         <h2 className="text-xl font-semibold ">Upload Files</h2>
-        <button onClick={() => setModal(false)}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        <button onClick={() => closeModal()}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -93,7 +96,7 @@ const FileUpload = ({handleChange, handleUpload, selectedFile, uploadProgress, s
           id="fileInput"
           type="file"
           className="sr-only"
-          accept="audio/*,.doc"
+          accept="audio/*,.doc, .pdf"
           onChange={handleChange}
         />
         <div className='flex items-center gap-5 justify-between'>

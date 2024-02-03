@@ -16,8 +16,8 @@ const DocCard = ({ file, metadata }) => {
 
   return (
     <div className="bg-white p-4 rounded-md shadow-md h-28 my-4">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">{file.name}</h3>
+      <div className="flex items-center justify-between mb-4 gap-2">
+        <h3 className="text-lg font-semibold line-clamp-1 overflow-hidden">{file.name}</h3>
         <button
           onClick={openDoc}
           className="bg-blue-500 text-white text-xs px-4 py-2 rounded-md"

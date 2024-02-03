@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import FileUpload from './FileUpload';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '@/app/firebase/config';
+import useModalStore from '@/modal.storage';
 
-const Modal = ({setUploading, uploading, setAudioFiles, userId, setModal}) => {
+const Modal = ({setUploading, uploading, setAudioFiles, userId}) => {
   const [progress, setProgress] = useState(0);
   const [audioFile, setAudioFile] = useState(null);
+  const { closeModal } = useModalStore();
+
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -15,15 +18,14 @@ const Modal = ({setUploading, uploading, setAudioFiles, userId, setModal}) => {
   // upload file
   const handleUpload = async () => {
     let storageRef;
-    const fileType = audioFile.type.split('/')[0]; // Extract the file type (audio, doc, etc.)
+    const fileType = audioFile.type.split('/')[0]; 
+    console.log(fileType);
     if (fileType === 'audio') {
       storageRef = ref(storage, `audio/${userId}/${audioFile?.name}`);
     } else if (fileType === 'application') {
-      // Assume application type is for documents, adjust as needed
       storageRef = ref(storage, `docs/${userId}/${audioFile?.name}`);
     } else {
       console.log("Unsupported file type");
-      // return;
     }
 
     try {
@@ -56,11 +58,11 @@ const Modal = ({setUploading, uploading, setAudioFiles, userId, setModal}) => {
     if(!uploading){
       setAudioFile(null)
       setProgress(0)
-      setModal(false)
+      closeModal()
     }
   }, [uploading])
 
-  return <FileUpload handleChange={handleChange} handleUpload={handleUpload} selectedFile={audioFile} uploadProgress={progress} setModal={setModal} />
+  return <FileUpload handleChange={handleChange} handleUpload={handleUpload} selectedFile={audioFile} uploadProgress={progress} />
 }
 
 export default Modal
